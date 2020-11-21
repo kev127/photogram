@@ -11,6 +11,20 @@ class Image(models.Model):
     likes = models.PositiveIntegerField(default=0,blank=True)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
+
+    @classmethod
+    def update_image(cls, id, value):
+        cls.objects.filter(id=id).update(image=value)
+
+    def __str__(self):
+        return self.title
+
+
 class Profile(models.Model):
     name = models.CharField(max_length=30)
     profile_pic = models.ImageField(upload_to='photo/', null='true')
