@@ -4,3 +4,7 @@ from django.shortcuts import render
 def instagram(request):
     return render(request, 'instagram.html')
 
+def photo(request):
+    return render(request, 'all-photo/photo.html')
+
+
