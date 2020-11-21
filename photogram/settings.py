@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'photogram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'photogram',
+        'NAME': 'instagram',
         'USER': 'kev',
     'PASSWORD':'1233',
     }
