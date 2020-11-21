@@ -10,3 +10,24 @@ class Image(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0,blank=True)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Profile(models.Model):
+    name = models.CharField(max_length=30)
+    profile_pic = models.ImageField(upload_to='photo/', null='true')
+    bio = models.TextField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default='', null=True)
+
+    def save_profile(self):
+        self.save
+
+    def delete_user(self):
+        self.delete()
+
+    
+    @classmethod
+    def update_profile(cls, id, value):
+        cls.objects.filter(id=id).update(profile_name=value)
+
+   
+    def __str__(self):
+        return f'{self.user.username} Profile'
