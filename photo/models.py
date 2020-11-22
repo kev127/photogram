@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Image(models.Model):
-    image = models.ImageField(upload_to = 'photo/' ,null=True)
+    profile_pic = models.ImageField(upload_to = 'photo/' ,null=True)
     image_name = models.CharField(max_length=40)
     image_caption = HTMLField() 
     date_posted = models.DateTimeField(auto_now_add=True)
