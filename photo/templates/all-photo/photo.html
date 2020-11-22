@@ -1,51 +1,25 @@
 {% extends 'all-photo/base.html' %}
-{% load bootstrap3 %}
-{%load crispy_forms_tags%}
-
-{% block content %}
-{{block.super}}
-<div class="container">
-
-    <div class="profile">
-
-        <div class="profile-image">
-
-            <img width="120%" height="120%" src="{{user.profile.profile_pic.url }}" alt="profile">
-
+{%block content%}
+<div class="col-sm-6 m-auto card">
+    <div class=" content-section container" style="padding-top: 100px;">
+    <div class="media">
+        <div class="col-sm-4">
+            <div style="width: 150px; height:150px; overflow:hidden; border-radius:50%" class="img-wrapper">
+                <img width="120%" height="120%" src="{{user.profile.profilephoto.url }}" alt="profile">
+            </div>
         </div>
-
-        <div class="profile-user-settings">
-
-            <h1 class="profile-user-name">{{user.username}}</h1>
-
+        <div class="media-body">
+            <h2 class="account-heading">{{user.username}}</h2>
+            <p class="text-secondary">{{user.email}}</p>
             <p>{{user.profile.bio}}</p>
+            <a href="{%url 'update_profile'%}">
+                <button class="btn btn-primary">Edit Profile</button>
+            </a>
 
-        </div>
-
-        <div class="profile-stats">
-
-            <ul>
-                <li><span class="profile-stat-count">164</span> posts</li>
-                <li><span class="profile-stat-count">188</span> followers</li>
-                <li><span class="profile-stat-count">206</span> following</li>
-            </ul>
-
-        </div>
-
-        <div class="container">
-            <form method="POST" enctype="multipart/form-data" >
-                {%csrf_token%}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Profile info</legend>
-                    {{ user_form|crispy }}
-                    {{ profile_form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">update</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
+</div>
 
+</div>
 {%endblock content%}
