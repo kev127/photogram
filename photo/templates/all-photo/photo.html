@@ -1,5 +1,6 @@
 {% extends 'all-photo/base.html' %}
 {% load bootstrap3 %}
+{%load crispy_forms_tags%}
 
 {% block content %}
 {{block.super}}
@@ -17,7 +18,7 @@
 
             <h1 class="profile-user-name">{{user.username}}</h1>
 
-            <button class="btn profile-edit-btn">Edit Profile</button>
+            <p>{{user.profile.bio}}</p>
 
         </div>
 
@@ -31,36 +32,20 @@
 
         </div>
 
+        <div class="container">
+            <form method="POST" enctype="multipart/form-data" >
+                {%csrf_token%}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Profile info</legend>
+                    {{ user_form|crispy }}
+                    {{ profile_form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">update</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-<!-- End of container -->
 
-</header>
-
-<main>
-
-<div class="container">
-
-    <div class="gallery">
-
-        <div class="gallery-item" tabindex="0">
-
-            <img src="" class="gallery-image" alt="">
-
-            <div class="gallery-item-info">
-
-                <ul>
-                    <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-                    <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
-                </ul>
-
-            </div>
-
-        </div>
-
-</div>
-<!-- End of container -->
-
-</main>
-
-{% endblock %}
+{%endblock content%}

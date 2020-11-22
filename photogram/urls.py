@@ -20,4 +20,5 @@ from django.contrib.auth import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('photo.urls')),
+    path('accounts/', include('registration.backends.simple.urls')),
 ]

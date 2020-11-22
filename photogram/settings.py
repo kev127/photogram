@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'photo.apps.PhotoConfig',
     'tinymce',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
