@@ -24,4 +24,23 @@ class ProfileTestClass(TestCase):
         Profile = Profile.objects.all()
         self.assertTrue(len(Locations)==2) 
 
+class PostTestCase(TestCase):
+
+    def setUp(self):
+        self.driving = Profile(image= 'image.jpg', title = 'driving', user='User')
+        self.driving.save()
+
+
+    def tearDown(self):
+        Post.objects.all().delete()
+
+
+    def test_instance(self):
+        self.assertTrue(isinstance(self.driving, Post))
+
+
+    def  test_save_method(self):
+        self.Kelvin.save_post()
+        title = Post.objects.all()
+
 

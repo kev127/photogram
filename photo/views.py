@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm ,NewPostForm
 from .models import Profile
+from .forms import SignUpForm, NewPostForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def instagram(request):
@@ -54,7 +56,7 @@ def photo(request):
             'profile_form': profile_form
 
         }
-    return render(request, 'all-photo/photo.html', context)
+    return render(request, 'all-photo/profile.html', context)
 
 def profile(request):
     if request.method == 'POST':
@@ -110,5 +112,5 @@ def new_post(request):
 
     else:
         form = NewPostForm()
-    return render(request, 'new_post.html', {"form": form})
+    return render(request, 'all-photo/new_post.html', {"form": form})
 
