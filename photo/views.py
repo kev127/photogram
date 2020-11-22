@@ -1,10 +1,35 @@
 from django.shortcuts import render
 from .forms import UserUpdateForm, ProfileUpdateForm
 from .models import Profile
+from django.contrib.auth.decorators import login_required.
 
 # Create your views here.
 def instagram(request):
     return render(request, 'instagram.html')
+
+@login_required(login_url='/accounts/login/')
+def login(request):
+    posts = Post.all_posts()
+    json_posts = []
+    for post in posts:
+
+        # import pdb; pdb.set_trace()
+        pic = Profile.objects.filter(user=post.user.id).first()
+        if pic:
+            pic = pic.profile_pic.url
+        else:
+            pic =''
+        obj = dict(
+            image=post.image.url,
+            author=post.user.username,
+            avatar=pic,
+            name=post.title,
+            caption=post.caption
+            # likes = post.likes
+
+        )
+        json_posts.append(obj)
+    return render(request, 'login.html', {"posts": json_posts})
 
 def photo(request):
     if request.method == 'POST':
