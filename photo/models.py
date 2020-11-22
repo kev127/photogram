@@ -48,7 +48,7 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
 class Post(models.Model):
-    profile_pic = models.ImageField(upload_to='new_post/', blank=True ,default = 'default.jpg')
+    profile_pic = models.ImageField(upload_to='new_post/', blank=True)
     title = models.CharField(max_length=30, default='')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='', null=True ,related_name='author')
     caption = models.TextField(max_length=300)

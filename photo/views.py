@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .forms import UserUpdateForm, ProfileUpdateForm ,NewPostForm
-from .models import Profile
+from .models import Profile, Post
 from .forms import SignUpForm, NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 def instagram(request):
@@ -22,41 +23,15 @@ def login(request):
         else:
             pic =''
         obj = dict(
-            image=post.image.url,
+            profile_pic=post.profile_pic.url,
             author=post.user.username,
             avatar=pic,
             name=post.title,
             caption=post.caption
-            # likes = post.likes
 
         )
         json_posts.append(obj)
     return render(request, 'all-photo/landing.html', {"posts": json_posts})
-
-def photo(request):
-    if request.method == 'POST':
-
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(
-            request.POST, request.FILES, instance=request.user)
-
-        if  profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-
-            return redirect('home')
-
-    else:
-        
-        profile_form = ProfileUpdateForm(instance=request.user)
-        user_form = UserUpdateForm(instance=request.user)
-
-        context = {
-            'user_form':user_form,
-            'profile_form': profile_form
-
-        }
-    return render(request, 'all-photo/profile.html', context)
 
 def profile(request):
     if request.method == 'POST':
@@ -69,7 +44,7 @@ def profile(request):
             user_form.save()
             profile_form.save()
 
-            return redirect('home')
+            return redirect('login')
 
     else:
         
@@ -82,7 +57,7 @@ def profile(request):
 
         }
 
-    return render(request, 'profile.html', context)
+    return render(request, 'all-photo/profile.html', context)
 
 def search_profile(request):
 
@@ -108,9 +83,39 @@ def new_post(request):
            
             image.save()
             
-        return redirect('home')
+        return redirect('login')
 
     else:
         form = NewPostForm()
     return render(request, 'all-photo/new_post.html', {"form": form})
+    
+def update_profile(request):
+    if request.method == 'POST':
+
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            profile_form.save()
+
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'all-photo/profile.html', {'user_form':user_form,'profile_form':profile_form})
+
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('login')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/registration_form.html', {'form': form})
 
