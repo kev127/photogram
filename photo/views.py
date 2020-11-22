@@ -29,7 +29,7 @@ def login(request):
 
         )
         json_posts.append(obj)
-    return render(request, 'login.html', {"posts": json_posts})
+    return render(request, 'all-photo/photo.html', {"posts": json_posts})
 
 def photo(request):
     if request.method == 'POST':
