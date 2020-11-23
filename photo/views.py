@@ -83,7 +83,7 @@ def new_post(request):
            
             image.save()
             
-        return redirect('login')
+
 
     else:
         form = NewPostForm()
