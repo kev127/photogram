@@ -7,8 +7,27 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 # Create your views here.
-def instagram(request):
-    return render(request, 'instagram.html')
+def landing(request):
+    posts = Post.all_posts()
+    json_posts = []
+    for post in posts:
+
+        # import pdb; pdb.set_trace()
+        pic = Profile.objects.filter(user=post.user.id).first()
+        if pic:
+            pic = pic.profile_pic.url
+        else:
+            pic =''
+        obj = dict(
+            profile_pic=post.profile_pic.url,
+            author=post.user.username,
+            avatar=pic,
+            name=post.title,
+            caption=post.caption
+
+        )
+        json_posts.append(obj)
+    return render(request, 'all-photo/landing.html', {"posts": json_posts})
 
 @login_required(login_url='/accounts/login/')
 def login(request):
