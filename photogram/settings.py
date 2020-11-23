@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 import django_heroku
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from pathlib import Path
 from decouple import config,Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -62,7 +66,13 @@ INSTALLED_APPS = [
     'photo.apps.PhotoConfig',
     'tinymce',
     'crispy_forms',
+    'cloudinary',
 ]
+cloudinary.config( 
+  cloud_name = "dkvno4yu9", 
+  api_key = "336261323112561", 
+  api_secret = "6OAl7U1Zbn-1ZzJ-1eMcmVd529c" 
+)
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',

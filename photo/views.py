@@ -5,6 +5,8 @@ from .forms import SignUpForm, NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from cloudinary.forms import cl_init_js_callbacks      
+from .forms import ImageForm
 
 # Create your views here.
 def landing(request):
@@ -135,4 +137,16 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form})
+
+def upload(request):
+  context = dict( backend_form = ImageForm())
+
+  if request.method == 'POST':
+    form = ImageForm(request.POST, request.FILES)
+    context['posted'] = form.instance
+    if form.is_valid():
+        form.save()
+
+  return render(request, 'all-photo/landing.html', context)
+
 

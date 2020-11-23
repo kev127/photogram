@@ -2,10 +2,14 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from django import forms
+from django.db import models
+from cloudinary.models import CloudinaryField
+
+import cloudinary
 
 # Create your models here.
 class Image(models.Model):
-    profile_pic = models.ImageField(upload_to = 'photo/' ,null=True)
+    profile_pic = CloudinaryField('image')
     image_name = models.CharField(max_length=40)
     image_caption = HTMLField() 
     date_posted = models.DateTimeField(auto_now_add=True)
@@ -28,7 +32,7 @@ class Image(models.Model):
 
 class Profile(models.Model):
     name = models.CharField(max_length=30)
-    profile_pic = models.ImageField(upload_to='photo/', null='true')
+    profile_pic = CloudinaryField('image')
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE, default='', null=True)
 
@@ -48,7 +52,7 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
 class Post(models.Model):
-    profile_pic = models.ImageField(upload_to='new_post/', blank=True)
+    profile_pic = CloudinaryField('image')
     title = models.CharField(max_length=30, default='')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='', null=True ,related_name='author')
     caption = models.TextField(max_length=300)
@@ -67,9 +71,6 @@ class Post(models.Model):
     @classmethod
     def update_post(cls, id, value):
         cls.objects.filter(id=id).update(image=value)
-
-
-
 
     def __str__(self):
         return self.title
