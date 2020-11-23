@@ -19,7 +19,6 @@ def landing(request):
         else:
             pic =''
         obj = dict(
-            profile_pic=post.profile_pic.url,
             author=post.user.username,
             avatar=pic,
             name=post.title,
@@ -42,7 +41,6 @@ def login(request):
         else:
             pic =''
         obj = dict(
-            profile_pic=post.profile_pic.url,
             author=post.user.username,
             avatar=pic,
             name=post.title,
