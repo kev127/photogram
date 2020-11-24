@@ -22,7 +22,7 @@ def landing(request):
             pic =''
         obj = dict(
             author=post.user.username,
-            avatar=pic,
+            avatar=post.profile_pic,
             name=post.title,
             caption=post.caption
 
@@ -44,7 +44,7 @@ def login(request):
             pic =''
         obj = dict(
             author=post.user.username,
-            avatar=pic,
+            avatar=post.profile_pic,
             name=post.title,
             caption=post.caption
 
@@ -63,8 +63,6 @@ def profile(request):
             user_form.save()
             profile_form.save()
 
-            return redirect('login')
-
     else:
         
         profile_form = ProfileUpdateForm(instance=request.user)
@@ -76,7 +74,7 @@ def profile(request):
 
         }
 
-    return render(request, 'all-photo/profile.html', context)
+    return render(request, 'all-photo/profile.html', {'user_form':user_form,'profile_form':profile_form})
 
 def search_profile(request):
 
@@ -133,7 +131,7 @@ def register(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('login')
+            
     else:
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form})
